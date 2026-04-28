@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Medical English Hub | Preposition Activity + All Tools – English is the Microphone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f0f7ff;
+      color: #1a2c3e;
+      padding: 2rem 1.5rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #1e6f5c, #289672);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    .badge {
+      background: #d9f0ec;
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e6f5c;
+      margin-top: 1rem;
+    }
+
+    .quiz-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid #cbdde6;
+      padding-bottom: 1rem;
+    }
+
+    .tab-btn {
+      background: #eef3fc;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #2c5a6e;
+    }
+
+    .tab-btn.active {
+      background: #1e6f5c;
+      color: white;
+      box-shadow: 0 4px 12px rgba(30,111,92,0.25);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: #d4e3ed;
+    }
+
+    .quiz-panel {
+      display: none;
+      animation: fade 0.25s ease;
+    }
+
+    .quiz-panel.active-panel {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .quiz-card, .twister-card, .symptom-card, .lab-card, .abbr-card, .prefix-card {
+      background: white;
+      border-radius: 40px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .question {
+      background: #fafdff;
+      padding: 2rem;
+      border-radius: 32px;
+      margin-bottom: 2.5rem;
+      border-left: 8px solid #289672;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .question-text {
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin-bottom: 1.5rem;
+      color: #0f3b2f;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      cursor: pointer;
+      padding: 0.8rem 1rem;
+      border-radius: 28px;
+      transition: background 0.15s;
+      font-size: 1.05rem;
+      background: #ffffff;
+      border: 1px solid #e2edf2;
+    }
+
+    .option:hover {
+      background: #eef2f7;
+      border-color: #bdd4db;
+    }
+
+    input[type="radio"] {
+      accent-color: #1e6f5c;
+      width: 1.3rem;
+      height: 1.3rem;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem 1.2rem;
+      border-radius: 28px;
+      font-size: 0.95rem;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .feedback.correct-feedback {
+      background: #e0f2e9;
+      color: #166b4f;
+      display: block;
+      border-left: 5px solid #289672;
+    }
+
+    .feedback.wrong-feedback {
+      background: #ffe6e5;
+      color: #b13e3e;
+      display: block;
+      border-left: 5px solid #d9534f;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #1e6f5c;
+      border: none;
+      color: white;
+      padding: 0.9rem 2rem;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    button.reset-btn {
+      background: #5a6e7c;
+    }
+
+    button:hover {
+      background: #0d5545;
+      transform: scale(0.98);
+    }
+
+    .score-area {
+      background: #e0f0f5;
+      border-radius: 60px;
+      padding: 1rem 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    th {
+      background: #1e6f5c;
+      color: white;
+      padding: 14px;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #d4e2e8;
+      vertical-align: middle;
+    }
+
+    .phonetic {
+      font-family: monospace;
+      color: #c97e00;
+      font-size: 0.9rem;
+    }
+
+    .audio-small {
+      background: #2c7a6e;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .twister-text {
+      background: #fef7e0;
+      padding: 1.5rem;
+      border-radius: 32px;
+      font-family: monospace;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+    }
+
+    .pronunciation-guide {
+      background: #eef3fa;
+      padding: 1.2rem;
+      border-radius: 28px;
+      margin-top: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: #6f8f9f;
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 1rem; }
+      .quiz-card, .twister-card { padding: 1.5rem; }
+      .question { padding: 1.2rem; }
+      .question-text { font-size: 1.1rem; }
+      .option { font-size: 0.95rem; padding: 0.6rem 0.8rem; gap: 0.8rem; }
+      button { padding: 0.7rem 1.5rem; }
+      .tab-btn { padding: 0.6rem 1.2rem; font-size: 0.85rem; }
+      th, td { font-size: 0.8rem; padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🎤 English is the Microphone</h1>
+    <p>🩺 Full preposition activity • Medical English for French‑speaking doctors</p>
+    <div class="badge">📚 False friends • Phrasal verbs • Idioms • Abbreviations • Prefixes/Suffixes • Audio • Prepositions</div>
+  </div>
+
+  <div class="quiz-tabs">
+    <button class="tab-btn active" data-tab="tab-falsefriends">⚠️ False Friends</button>
+    <button class="tab-btn" data-tab="tab-phrasal">🔁 Phrasal Verbs</button>
+    <button class="tab-btn" data-tab="tab-idioms">💬 Idioms</button>
+    <button class="tab-btn" data-tab="tab-document">📄 SOAP/SBAR</button>
+    <button class="tab-btn" data-tab="tab-pronounce">🗣️ Grammar</button>
+    <button class="tab-btn" data-tab="tab-symptoms">🩺 Symptoms</button>
+    <button class="tab-btn" data-tab="tab-labvalues">🔬 Lab Values</button>
+    <button class="tab-btn" data-tab="tab-abbr">📋 Abbreviations</button>
+    <button class="tab-btn" data-tab="tab-prefix">🔤 Prefixes/Suffixes</button>
+    <button class="tab-btn" data-tab="tab-preposition">📌 Preposition Activity</button>
+    <button class="tab-btn" data-tab="tab-tongue">🌀 Audio Twisters</button>
+  </div>
+
+  <!-- Existing panels (simplified rendering via JS later) -->
+  <div id="tab-falsefriends" class="quiz-panel active-panel"><div class="quiz-card"><div id="ff-questions-container"></div><div class="quiz-actions"><button id="ff-check">✅ Check answers</button><button id="ff-reset" class="reset-btn">⟳ Reset</button></div><div id="ff-score" class="score-area"></div></div></div>
+  <div id="tab-phrasal" class="quiz-panel"><div class="quiz-card"><div id="pv-questions-container"></div><div class="quiz-actions"><button id="pv-check">✅ Check answers</button><button id="pv-reset" class="reset-btn">⟳ Reset</button></div><div id="pv-score" class="score-area"></div></div></div>
+  <div id="tab-idioms" class="quiz-panel"><div class="quiz-card"><div id="idioms-questions-container"></div><div class="quiz-actions"><button id="idioms-check">✅ Check answers</button><button id="idioms-reset" class="reset-btn">⟳ Reset</button></div><div id="idioms-score" class="score-area"></div></div></div>
+  <div id="tab-document" class="quiz-panel"><div class="quiz-card"><div id="doc-questions-container"></div><div class="quiz-actions"><button id="doc-check">✅ Check answers</button><button id="doc-reset" class="reset-btn">⟳ Reset</button></div><div id="doc-score" class="score-area"></div></div></div>
+  <div id="tab-pronounce" class="quiz-panel"><div class="quiz-card"><div id="pron-questions-container"></div><div class="quiz-actions"><button id="pron-check">✅ Check answers</button><button id="pron-reset" class="reset-btn">⟳ Reset</button></div><div id="pron-score" class="score-area"></div></div></div>
+  <div id="tab-symptoms" class="quiz-panel"><div class="symptom-card"><h3>🩺 Common Symptoms</h3><table><thead><tr><th>Symptom</th><th>Pronunciation</th><th>French</th><th>🔊</th></tr></thead><tbody><tr><td>Chest pain</td><td class="phonetic">/tʃest peɪn/</td><td>Douleur thoracique</td><td><button class="audio-small" data-text="Chest pain">Speak</button></td></tr><tr><td>Shortness of breath</td><td class="phonetic">/ˈʃɔːrt.nəs əv breθ/</td><td>Dyspnée</td><td><button class="audio-small" data-text="Shortness of breath">Speak</button></td></tr><tr><td>Abdominal pain</td><td class="phonetic">/æbˈdɒm.ɪ.nəl peɪn/</td><td>Douleur abdominale</td><td><button class="audio-small" data-text="Abdominal pain">Speak</button></td></tr><tr><td>Nausea</td><td class="phonetic">/ˈnɔː.zi.ə/</td><td>Nausée</td><td><button class="audio-small" data-text="Nausea">Speak</button></td></tr><tr><td>Vomiting</td><td class="phonetic">/ˈvɒm.ɪ.tɪŋ/</td><td>Vomissements</td><td><button class="audio-small" data-text="Vomiting">Speak</button></td></tr><tr><td>Fever</td><td class="phonetic">/ˈfiː.vər/</td><td>Fièvre</td><td><button class="audio-small" data-text="Fever">Speak</button></td></tr></tbody></table></div></div>
+  <div id="tab-labvalues" class="quiz-panel"><div class="lab-card"><h3>🔬 Lab Values & Numbers</h3><table><thead><tr><th>Test</th><th>Value</th><th>How to say</th><th>🔊</th></td></thead><tbody><tr><td>Hemoglobin</td><td>7.2 g/dL</td><td>"seven point two"</td><td><button class="audio-small" data-text="seven point two grams per deciliter">Speak</button></td></tr><tr><td>CRP</td><td>48.5 mg/L</td><td>"forty-eight point five"</td><td><button class="audio-small" data-text="forty eight point five">Speak</button></td></tr><tr><td>Blood pressure</td><td>120/80 mmHg</td><td>"one hundred twenty over eighty"</td><td><button class="audio-small" data-text="one hundred twenty over eighty">Speak</button></td></tr><tr><td>Lactate</td><td>8.2 mmol/L</td><td>"eight point two"</td><td><button class="audio-small" data-text="eight point two">Speak</button></td></tr><tr><td>Temperature</td><td>38.5°C</td><td>"thirty-eight point five"</td><td><button class="audio-small" data-text="thirty eight point five degrees Celsius">Speak</button></td></tr></tbody></table></div></div>
+  <div id="tab-abbr" class="quiz-panel"><div class="abbr-card"><h3>📋 Common Medical Abbreviations</h3><table><thead><tr><th>Abbrev</th><th>Meaning</th><th>French</th><th>🔊</th></tr></thead><tbody><tr><td>BP</td><td>Blood pressure</td><td>TA</td><td><button class="audio-small" data-text="Blood pressure">Speak</button></td></tr><tr><td>CBC</td><td>Complete blood count</td><td>NFS</td><td><button class="audio-small" data-text="Complete blood count">Speak</button></td></tr><tr><td>NPO</td><td>Nothing by mouth</td><td>À jeun</td><td><button class="audio-small" data-text="Nothing by mouth">Speak</button></td></tr><tr><td>PRN</td><td>As needed</td><td>Si besoin</td><td><button class="audio-small" data-text="As needed">Speak</button></td></tr><tr><td>BID</td><td>Twice daily</td><td>2 fois/jour</td><td><button class="audio-small" data-text="Twice daily">Speak</button></td></tr><tr><td>STAT</td><td>Immediately</td><td>Urgent</td><td><button class="audio-small" data-text="Immediately">Speak</button></td></tr></tbody></table></div></div>
+  <div id="tab-prefix" class="quiz-panel"><div class="prefix-card"><h3>🔤 Medical Prefixes & Suffixes</h3><p><strong>Prefixes:</strong> hyper- (high), hypo- (low), tachy- (fast), brady- (slow), dys- (abnormal), intra- (within). <strong>Suffixes:</strong> -itis (inflammation), -ectomy (removal), -algia (pain), -emia (blood condition).</p><div id="prefix-quiz-container"></div><div class="quiz-actions"><button id="prefix-quiz-check">✅ Check prefix/suffix</button><button id="prefix-quiz-reset" class="reset-btn">⟳ Reset</button></div><div id="prefix-score" class="score-area"></div></div></div>
+
+  <!-- ========== NEW DEDICATED PREPOSITION ACTIVITY TAB ========== -->
+  <div id="tab-preposition" class="quiz-panel">
+    <div class="quiz-card">
+      <h3>📌 Preposition Activity – AT / ON / IN + Medical Prepositions</h3>
+      <p style="margin-bottom: 1rem;"><strong>Grammar rule reminder:</strong> Use <strong>AT</strong> for specific times (at 9 AM), <strong>ON</strong> for days/dates (on Monday), <strong>IN</strong> for longer periods (in the morning, in June). Also practice clinical prepositions: <strong>admitted to, discharged from, allergic to, treat with, present with.</strong></p>
+      <div id="preposition-questions-container"></div>
+      <div class="quiz-actions">
+        <button id="prep-check">✅ Check all answers</button>
+        <button id="prep-reset" class="reset-btn">⟳ Reset all</button>
+      </div>
+      <div id="prep-score" class="score-area"></div>
+    </div>
+  </div>
+
+  <div id="tab-tongue" class="quiz-panel"><div class="twister-card"><div class="twister-title" style="font-size:1.8rem; font-weight:800;">🌀 Audio Tongue Twisters</div><div style="margin-bottom:1rem"><button class="audio-btn" data-target="twister1">🔊 #1 Morning rounds</button> <button class="audio-btn" data-target="twister2">🔊 #2 Pancreas</button> <button class="audio-btn" data-target="twister3">🔊 #3 -ED endings</button> <button class="audio-btn" data-target="twister4">🔊 #4 Exploding T</button></div><div id="twister1" class="twister-text">"Though the morning was chaotic and tough, and rounds were rough enough, a patient started to cough, I thought, 'This will be rough,' but I worked through it all, thorough and tough — now that's the good stuff!"</div><div id="twister2" class="twister-text">"Dr. Salim says his series of studies shows that the pancreas secretes six substances."</div><div id="twister3" class="twister-text">"The discharged patient needed the infected wound treated, but the exhausted doctor decided the wound was already completed. He watched, he checked, he finally concluded: 'The patient's condition has truly been excluded.'"</div><div id="twister4" class="twister-text">"The patient's temperature is thirty-seven point two — Take the tube, test the throat, treat the trauma – true, a tiny puff of air makes the English T clear, not a French silent T that nobody can hear."</div></div></div>
+  
+  <footer>⚕️ Spacious design • New preposition activity with clinical sentences • Audio included</footer>
+</div>
+
+<script>
+  // ========== QUIZ DATA ==========
+  const ffData = [
+    { text: "French 'actuellement' = ?", options: ["Actually", "Currently", "Eventually", "Nowadays"], correct: 1, explanation: "Currently." },
+    { text: "'sensible' (French) → English:", options: ["Sensible", "Sensitive", "Reasonable", "Logical"], correct: 1, explanation: "Sensitive." },
+    { text: "'blessé' =", options: ["Blessed", "Injured", "Hurtful", "Wounded"], correct: 1, explanation: "Injured." },
+    { text: "'grave' (medical) =", options: ["Serious/critical", "Grave (tomb)", "Severe", "Mild"], correct: 0, explanation: "Serious/critical." },
+    { text: "'éventuellement' =", options: ["Eventually", "Possibly", "Certainly", "Urgently"], correct: 1, explanation: "Possibly." },
+    { text: "'control the BP' → better:", options: ["Manage", "Monitor", "Regulate", "All are better"], correct: 3, explanation: "Use monitor/check." },
+    { text: "'assister à' =", options: ["Assist", "Attend", "Help", "Join"], correct: 1, explanation: "Attend." },
+    { text: "'demander' =", options: ["Demand", "Ask", "Order", "Request"], correct: 1, explanation: "Ask." },
+    { text: "'librairie' =", options: ["Library", "Bookstore", "Archive", "Librarian"], correct: 1, explanation: "Bookstore." },
+    { text: "'préservatif' =", options: ["Preservative", "Condom", "Protection", "Prophylactic"], correct: 1, explanation: "Condom." },
+    { text: "'a reçu' =", options: ["Received", "Has received", "Both", "Prescribed"], correct: 2, explanation: "Received / has received." },
+    { text: "'intoxication alimentaire' =", options: ["Food poisoning", "Food intoxication", "Food allergy", "Food infection"], correct: 0, explanation: "Food poisoning." }
+  ];
+  const pvData = [
+    { text: "The patient ___ his breakfast (vomited).", options:["brought up","blacked out","threw up","came up"], correct:0, explanation:"Bring up = vomit." },
+    { text: "We must ___ appendicitis.", options:["rule out","figure out","look for","patch up"], correct:0, explanation:"Rule out = exclude." },
+    { text: "Let's ___ the lab results.", options:["go over","go through","review","All"], correct:3, explanation:"All correct." },
+    { text: "The patient ___ after standing.", options:["blacked out","passed away","bounced back","pulled up"], correct:0, explanation:"Black out = syncope." },
+    { text: "After IVF, the patient ___ quickly.", options:["bounces back","tanks","crashes","fades"], correct:0, explanation:"Bounce back = recover." },
+    { text: "Resident: 'I ___ a new plan.'", options:["came up with","brought about","went over","followed through"], correct:0, explanation:"Came up with = devised." },
+    { text: "Condition ___ overnight.", options:["tanked","bounced back","patched up","shook out"], correct:0, explanation:"Tanked = worsened." },
+    { text: "We need to ___ on Mr. Jones.", options:["follow up","check in","both","bring up"], correct:2, explanation:"Follow up / check in." },
+    { text: "Trauma patient was ___ in OR.", options:["patched up","pulled up","looped","shrugged"], correct:0, explanation:"Patched up = repaired." },
+    { text: "Dr. Karim ___ the MRI images.", options:["pulled up","brought up","looked into","pointed out"], correct:0, explanation:"Pull up = display." },
+    { text: "Family wants to ___ a specialist.", options:["bring in","call in","consult","All"], correct:3, explanation:"All correct." },
+    { text: "Don't forget to ___ the wound.", options:["check on","check over","inspect","All"], correct:3, explanation:"All correct." }
+  ];
+  const idiomsData = [
+    { text:"Critically ill: 'hanging by a ___'", options:["thread","rope","string","wire"], correct:0, explanation:"Hanging by a thread = near death." },
+    { text:"Fully recovered:", options:["Back on feet","Under knife","In pink","Both A/C"], correct:3, explanation:"Back on feet / in the pink." },
+    { text:"Feeling slightly ill:", options:["Under weather","Out of sorts","Run down","All"], correct:3, explanation:"All correct." },
+    { text:"Code Blue requires:", options:["Crash cart","Stretcher","Gurney","Defib only"], correct:0, explanation:"Crash cart." },
+    { text:"Difficult news to accept:", options:["Bitter pill","Hard tablet","Rough meds","Sour candy"], correct:0, explanation:"Bitter pill to swallow." },
+    { text:"Out of danger:", options:["Out of woods","Over hill","Past crisis","Both A/C"], correct:3, explanation:"Out of the woods." },
+    { text:"Extremely busy doctor:", options:["Snowed under","Rained under","Flooded","Turfed"], correct:0, explanation:"Snowed under." },
+    { text:"Over‑competitive student:", options:["Gunner","Turfer","Rounds runner","Scalpel"], correct:0, explanation:"Gunner." },
+    { text:"Transfer patient (slang):", options:["Turf","Bounce","Handoff","Shunt"], correct:0, explanation:"Turf." },
+    { text:"Polite 'died':", options:["Passed away","Kicked bucket","Expired","All"], correct:3, explanation:"All can be used depending on context." },
+    { text:"Start over because plan failed:", options:["Back to square one","Reset clock","Ground zero","Redo"], correct:0, explanation:"Back to square one." },
+    { text:"Maximum effort:", options:["Pull out all stops","Throw towel","Call day","Shot dark"], correct:0, explanation:"Pull out all stops." }
+  ];
+  const docData = [
+    { text:"SOAP 'S' =", options:["Situation","Subjective","Summary","Subj data"], correct:1, explanation:"Subjective = patient's words." },
+    { text:"SBAR 'A' =", options:["Assessment","Analysis","Action","Admission"], correct:0, explanation:"Assessment = vitals + impression." },
+    { text:"Which SOAP section includes 'HR 110'?", options:["Subjective","Objective","Assessment","Plan"], correct:1, explanation:"Objective = measurable." },
+    { text:"SBAR 'R' =", options:["Recommendation","Referral","Response","Resus"], correct:0, explanation:"Recommendation = action." },
+    { text:"First in SBAR:", options:["Background","Situation","Assessment","Recommendation"], correct:1, explanation:"Situation first." },
+    { text:"Verb for hospital test:", options:["Prescribe","Order","Demand","Make"], correct:1, explanation:"Order a test." },
+    { text:"BRAIN 'I' =", options:["Indication","Intuition","Information","Intervention"], correct:1, explanation:"Intuition = patient's feelings." },
+    { text:"Hospital course describes:", options:["Progress","Future plan","Meds","History"], correct:0, explanation:"Treatment & progress." },
+    { text:"Plan: 'Patient ___ NPO'", options:["will be kept","should be NPO","is being","All"], correct:3, explanation:"All acceptable." },
+    { text:"Fix 'presented a fever':", options:["presented with fever","had fever","exhibited fever","Both A/B"], correct:3, explanation:"Presented with / had." }
+  ];
+  const pronData = [
+    { text:"-ed sound /ɪd/ ?", options:["Watched","Needed","Confused","Laughed"], correct:1, explanation:"Needed = /ɪd/." },
+    { text:"'Pancreatitis' stress:", options:["-TEE-","-TIGHT-","PAN-","-KREE-"], correct:1, explanation:"pan-cre-a-TIGHT-is." },
+    { text:"Future: 'I will to call' →", options:["will call","will calling","to call","calling"], correct:0, explanation:"Will + base verb." },
+    { text:"Patient final T?", options:["Silent","Aspirated","Glottal","D sound"], correct:1, explanation:"Aspirated (puff of air)." },
+    { text:"Past of 'tell':", options:["told","tell","telled","was tell"], correct:0, explanation:"Told." },
+    { text:"Preposition: '___ Monday ___ 9 AM'", options:["on/at","in/at","at/on","on/in"], correct:0, explanation:"On Monday at 9 AM." },
+    { text:"'cough since Monday' → correct:", options:["has had a cough since","has a cough for","had a cough since","has a cough since"], correct:0, explanation:"Present perfect." },
+    { text:"/z/ plural sound?", options:["Ducts","Patients","Studies","Chests"], correct:2, explanation:"Studies = /z/." },
+    { text:"'Gastritis' stress:", options:["GAS-","gas-TRY-","-TIS","GAStri"], correct:1, explanation:"gas-TRY-tis." },
+    { text:"Negative: 'I ___ time'", options:["don't have","have not","haven't","A/C"], correct:3, explanation:"I don't have / haven't got." },
+    { text:"Present continuous: 'BP ___ now'", options:["drops","is dropping","drop","dropping"], correct:1, explanation:"Is dropping." },
+    { text:"Passive: 'We performed echo' →", options:["Echo was performed","Did echo","Echo was done","A/C"], correct:3, explanation:"Was performed / was done." }
+  ];
+  const prefixQuiz = [
+    { text: "What does 'hyperglycemia' mean?", options:["Low blood sugar","High blood sugar","Normal sugar","Sugar in urine"], correct:1, explanation:"hyper=high, glyc=sugar, emia=blood." },
+    { text: "Cardiomegaly = enlargement of the ___", options:["Liver","Heart","Kidney","Brain"], correct:1, explanation:"megaly = enlargement, cardio = heart." },
+    { text: "'-itis' means:", options:["Removal","Inflammation","Pain","Tumor"], correct:1, explanation:"Inflammation (e.g., pancreatitis)." },
+    { text: "Hypotension is ___ blood pressure.", options:["High","Normal","Low","Irregular"], correct:2, explanation:"hypo = low." },
+    { text: "A gastrectomy is removal of part of the ___", options:["Stomach","Intestine","Colon","Gallbladder"], correct:0, explanation:"gastr = stomach." }
+  ];
+  // PREPOSITION ACTIVITY (12 questions – 6 time + 6 medical context)
+  const prepQuestions = [
+    { text: "Rounds start ___ 9 AM.", correct: "at", options: ["at","on","in"] },
+    { text: "See you ___ Friday morning.", correct: "on", options: ["at","on","in"] },
+    { text: "The patient was admitted ___ the hospital last night.", correct: "to", options: ["to","at","in"] },
+    { text: "The nurse will check on you ___ the afternoon.", correct: "in", options: ["at","on","in"] },
+    { text: "The conference is ___ March 5th.", correct: "on", options: ["at","on","in"] },
+    { text: "She is allergic ___ penicillin.", correct: "to", options: ["to","from","with"] },
+    { text: "We will discharge him ___ three days.", correct: "in", options: ["at","on","in"] },
+    { text: "The patient presented ___ fever and cough.", correct: "with", options: ["with","to","for"] },
+    { text: "He was transferred ___ the ICU this morning.", correct: "to", options: ["to","in","at"] },
+    { text: "The team will meet ___ the morning to discuss the case.", correct: "in", options: ["at","on","in"] },
+    { text: "She is being treated ___ antibiotics.", correct: "with", options: ["with","by","for"] },
+    { text: "The patient was discharged ___ home yesterday.", correct: "to", options: ["to","at","from"] }
+  ];
+
+  function renderQuiz(containerId, questions, prefix) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    let html = '';
+    questions.forEach((q, idx) => {
+      const qId = `${prefix}_q${idx}`;
+      html += `<div class="question"><div class="question-text">${idx+1}. ${q.text}</div><div class="options">`;
+      q.options.forEach((opt, oi) => {
+        html += `<label class="option"><input type="radio" name="${qId}" value="${opt}"><span>${opt}</span></label>`;
+      });
+      html += `</div><div class="feedback" id="fb-${qId}"></div></div>`;
+    });
+    container.innerHTML = html;
+  }
+  function checkQuiz(qs, prefix, scoreId) {
+    let score = 0;
+    qs.forEach((q, idx) => {
+      const sel = document.querySelector(`input[name="${prefix}_q${idx}"]:checked`);
+      const fb = document.getElementById(`fb-${prefix}_q${idx}`);
+      if (!fb) return;
+      if (sel && sel.value === q.correct) {
+        score++;
+        fb.innerHTML = `✅ Correct. ${q.explanation || ''}`;
+        fb.className = "feedback correct-feedback";
+      } else if (sel) {
+        fb.innerHTML = `❌ Correct answer: "${q.correct}". ${q.explanation || ''}`;
+        fb.className = "feedback wrong-feedback";
+      } else {
+        fb.innerHTML = `⚠️ Please select an answer. Correct: "${q.correct}".`;
+        fb.className = "feedback wrong-feedback";
+      }
+    });
+    document.getElementById(scoreId).innerHTML = `📊 Score: ${score}/${qs.length} (${Math.round(score/qs.length*100)}%)`;
+  }
+  function resetQuiz(qs, prefix, scoreId) {
+    qs.forEach((_, idx) => {
+      document.querySelectorAll(`input[name="${prefix}_q${idx}"]`).forEach(r => r.checked = false);
+      const fb = document.getElementById(`fb-${prefix}_q${idx}`);
+      if (fb) { fb.innerHTML = ''; fb.className = 'feedback'; }
+    });
+    document.getElementById(scoreId).innerHTML = '';
+  }
+
+  renderQuiz("ff-questions-container", ffData, "ff");
+  renderQuiz("pv-questions-container", pvData, "pv");
+  renderQuiz("idioms-questions-container", idiomsData, "idiom");
+  renderQuiz("doc-questions-container", docData, "doc");
+  renderQuiz("pron-questions-container", pronData, "pron");
+  // Render prefix quiz
+  let prefixHtml = '';
+  prefixQuiz.forEach((q,i) => {
+    prefixHtml += `<div class="question"><div class="question-text">${i+1}. ${q.text}</div><div class="options">${q.options.map((opt,oi)=>`<label class="option"><input type="radio" name="prefq${i}" value="${oi}"><span>${opt}</span></label>`).join('')}</div><div class="feedback" id="preffb${i}"></div></div>`;
+  });
+  document.getElementById("prefix-quiz-container").innerHTML = prefixHtml;
+  // Render preposition activity
+  renderQuiz("preposition-questions-container", prepQuestions, "prep");
+
+  // Attach check/reset for all
+  document.getElementById("ff-check").onclick = () => checkQuiz(ffData, "ff", "ff-score");
+  document.getElementById("ff-reset").onclick = () => resetQuiz(ffData, "ff", "ff-score");
+  document.getElementById("pv-check").onclick = () => checkQuiz(pvData, "pv", "pv-score");
+  document.getElementById("pv-reset").onclick = () => resetQuiz(pvData, "pv", "pv-score");
+  document.getElementById("idioms-check").onclick = () => checkQuiz(idiomsData, "idiom", "idioms-score");
+  document.getElementById("idioms-reset").onclick = () => resetQuiz(idiomsData, "idiom", "idioms-score");
+  document.getElementById("doc-check").onclick = () => checkQuiz(docData, "doc", "doc-score");
+  document.getElementById("doc-reset").onclick = () => resetQuiz(docData, "doc", "doc-score");
+  document.getElementById("pron-check").onclick = () => checkQuiz(pronData, "pron", "pron-score");
+  document.getElementById("pron-reset").onclick = () => resetQuiz(pronData, "pron", "pron-score");
+  document.getElementById("prefix-quiz-check").onclick = () => {
+    let s=0; prefixQuiz.forEach((q,i) => { let sel = document.querySelector(`input[name="prefq${i}"]:checked`); let fb = document.getElementById(`preffb${i}`); if(sel && parseInt(sel.value)===q.correct) { s++; fb.innerHTML=`✅ ${q.explanation}`; fb.className="feedback correct-feedback"; } else if(sel) { fb.innerHTML=`❌ Correct: ${q.options[q.correct]}. ${q.explanation}`; fb.className="feedback wrong-feedback"; } else { fb.innerHTML=`⚠️ Answer: ${q.options[q.correct]}`; fb.className="feedback wrong-feedback"; } }); document.getElementById("prefix-score").innerHTML = `📊 Prefix/Suffix score: ${s}/${prefixQuiz.length}`;
+  };
+  document.getElementById("prefix-quiz-reset").onclick = () => { prefixQuiz.forEach((_,i) => { document.querySelectorAll(`input[name="prefq${i}"]`).forEach(r=>r.checked=false); let fb = document.getElementById(`preffb${i}`); if(fb) { fb.innerHTML=''; fb.className='feedback'; } }); document.getElementById("prefix-score").innerHTML = ''; };
+  document.getElementById("prep-check").onclick = () => checkQuiz(prepQuestions, "prep", "prep-score");
+  document.getElementById("prep-reset").onclick = () => resetQuiz(prepQuestions, "prep", "prep-score");
+
+  // Audio
+  function speakText(t) { if(!window.speechSynthesis) return; window.speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=0.88; window.speechSynthesis.speak(u); }
+  document.querySelectorAll('.audio-btn').forEach(btn => btn.addEventListener('click',()=>{ let tid=btn.getAttribute('data-target'); if(tid){ let el=document.getElementById(tid); if(el) speakText(el.innerText); } }));
+  document.querySelectorAll('.audio-small').forEach(btn => btn.addEventListener('click',()=>{ let txt=btn.getAttribute('data-text'); if(txt) speakText(txt); }));
+
+  // Tabs
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.quiz-panel');
+  tabs.forEach(btn => btn.addEventListener('click',()=>{ const id=btn.getAttribute('data-tab'); tabs.forEach(b=>b.classList.remove('active')); btn.classList.add('active'); panels.forEach(p=>p.classList.remove('active-panel')); document.getElementById(id)?.classList.add('active-panel'); }));
+</script>
+</body>
+</html>

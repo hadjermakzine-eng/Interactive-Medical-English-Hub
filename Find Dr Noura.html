@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🇬🇧 Find Dr. Noura – Medical English Mission</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0c1a1f;
+      min-height: 100vh;
+      padding: 1.8rem;
+      color: #eef4ff;
+    }
+
+    .game-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: rgba(22, 34, 38, 0.7);
+      backdrop-filter: blur(2px);
+      border-radius: 3rem;
+      padding: 1.5rem;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+      border: 1px solid #5b7b6e;
+    }
+
+    .mission-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+      background: #0f2125;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      border-left: 6px solid #d4af37;
+    }
+
+    .title h1 {
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, #f9e0a0, #eab354);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .badge-union {
+      background: #002147;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #c8102e;
+      font-size: 0.8rem;
+    }
+
+    .progress-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-track {
+      background: #2a3e3c;
+      border-radius: 30px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #e6b422;
+      width: 0%;
+      height: 100%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+    }
+
+    /* LEFT: Evidence Board */
+    .evidence-board {
+      flex: 1;
+      background: #0f2629;
+      border-radius: 2rem;
+      padding: 1.3rem;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .clue-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+    }
+
+    .clue-item {
+      background: #1e3c3a;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      transition: all 0.2s;
+      border-left: 5px solid #5e7d6e;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+
+    .clue-item.locked {
+      filter: blur(2px) brightness(0.7);
+      background: #172d2b;
+      border-left-color: #6b6b6b;
+    }
+
+    .clue-item.unlocked {
+      background: #2d6154;
+      border-left-color: #e6b422;
+    }
+
+    .clue-icon {
+      font-size: 1.4rem;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .location-card {
+      background: #122c2a;
+      border-radius: 1.4rem;
+      padding: 0.8rem;
+      text-align: center;
+      margin-top: 1rem;
+      border: 1px solid #ffcd7e;
+      font-size: 0.85rem;
+    }
+
+    /* RIGHT: Single Question Area */
+    .quiz-panel {
+      flex: 1.5;
+      background: #fef7ed;
+      border-radius: 2rem;
+      padding: 1.5rem;
+      color: #1e3b33;
+    }
+
+    .active-question-card {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .q-text {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      color: #1f604f;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .option-item {
+      background: #fefaf0;
+      border: 1px solid #e6d5b3;
+      border-radius: 60px;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .option-item:hover {
+      background: #f6ebd4;
+    }
+
+    input[type="radio"] {
+      accent-color: #2f7d66;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .feedback-message {
+      margin: 1rem 0 0.8rem;
+      padding: 0.6rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .feedback-correct {
+      display: block;
+      background: #dcfce8;
+      color: #136b4b;
+    }
+
+    .feedback-wrong {
+      display: block;
+      background: #ffe1df;
+      color: #b13e3e;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    button {
+      background: #2f7d66;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 60px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .reset-btn {
+      background: #5c4e3a;
+    }
+
+    button:hover {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    /* Celebration overlay */
+    .england-celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #fff2ce, #cf9f4a);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      transition: all 0.4s;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .england-celebration.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .celebration-card {
+      background: #fef6e8;
+      max-width: 600px;
+      padding: 2rem;
+      border-radius: 56px;
+      border: 6px solid #c8102e;
+      box-shadow: 0 20px 35px black;
+      color: #1d453a;
+    }
+
+    .union-jack {
+      font-size: 3.5rem;
+      letter-spacing: 6px;
+    }
+
+    .london-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1rem 0;
+      font-size: 2.5rem;
+    }
+
+    .icon-bus {
+      animation: busWiggle 1s infinite alternate;
+    }
+
+    @keyframes busWiggle {
+      0% { transform: translateX(0px); }
+      100% { transform: translateX(4px); }
+    }
+
+    .close-celeb {
+      margin-top: 1.5rem;
+      background: #c8102e;
+      padding: 0.5rem 1.5rem;
+    }
+
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      margin-top: 1.8rem;
+      color: #bdd3cf;
+    }
+  </style>
+</head>
+<body>
+<div class="game-container">
+  <div class="mission-header">
+    <div class="title">
+      <h1><i class="fas fa-microphone-alt"></i> English is the Microphone</h1>
+      <p>🕵️‍♀️ One clue at a time • Find Dr. Noura</p>
+    </div>
+    <div class="badge-union">
+      <i class="fas fa-flag-checkered"></i> OPERATION: LOCATE
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-stats"><span>🕵️ Clues deciphered</span><span id="clueCountStat">0 / 6</span></div>
+  </div>
+
+  <div class="dashboard">
+    <!-- LEFT: Evidence dossier (clues revealed one by one) -->
+    <div class="evidence-board">
+      <h3><i class="fas fa-folder-open"></i> CLASSIFIED DOSSIER</h3>
+      <div id="clueGrid" class="clue-grid"></div>
+      <div id="locationPreview" class="location-card">
+        <i class="fas fa-lock"></i> LOCATION: [CLASSIFIED] — answer questions to decrypt.
+      </div>
+    </div>
+
+    <!-- RIGHT: Single active question panel -->
+    <div class="quiz-panel">
+      <div id="activeQuestionContainer" class="active-question-card">
+        <!-- dynamic current question will appear here -->
+      </div>
+      <div class="action-buttons">
+        <button id="verifyCurrentBtn"><i class="fas fa-check-circle"></i> VERIFY & UNLOCK CLUE</button>
+        <button id="resetGameBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> RESTART MISSION</button>
+      </div>
+    </div>
+  </div>
+  <footer>⚕️ Each correct answer unlocks the next clue and plays a cheerful tune. Wrong answer → descending tone. All clues reveal Dr. Noura's exact location.</footer>
+</div>
+
+<!-- ENGLAND CELEBRATION OVERLAY (full location only shown at the end) -->
+<div id="englandCelebration" class="england-celebration">
+  <div class="celebration-card">
+    <div class="union-jack">🇬🇧🏴󠁧󠁢󠁥󠁮󠁧󠁿🇬🇧</div>
+    <div class="london-icons">
+      <span>🕰️🏛️</span>
+      <span class="icon-bus">🚌🎡</span>
+      <span>🚍🇬🇧</span>
+    </div>
+    <h2 style="font-size: 1.6rem; margin: 0.5rem 0;">🏆 MISSION ACCOMPLISHED 🏆</h2>
+    <p><strong>Dr. Noura located!</strong><br>
+    <i class="fas fa-map-pin"></i> <strong>Royal College of Surgeons of England</strong><br>
+    Wolfson Urology Theatre – Urology Royal Symposium<br>
+    38 Lincoln's Inn Fields, London WC2A 3PE, United Kingdom<br>
+    <i class="fas fa-bus"></i> London’s iconic double‑decker bus route 188 stops near Holborn.<br>
+    🇬🇧 <em>“English is the microphone — your expertise is the music.”</em></p>
+    <button id="closeCelebrationBtn" class="close-celeb"><i class="fas fa-thumbs-up"></i> CASE CLOSED</button>
+  </div>
+</div>
+
+<script>
+  // -------------------- MEDICAL ENGLISH QUESTIONS (All 6) --------------------
+  // Clues gradually reveal the location, but no location name is shown until the final celebration.
+  const QUESTIONS = [
+    {
+      text: "Dr. Noura wrote: 'The patient has sweet blood.' Correct clinical term?",
+      options: ["Hyperglycemia / high blood sugar", "Sweet glucose syndrome", "Sugar toxicity", "Honey blood"],
+      correct: 0,
+      explanation: "Hyperglycemia = high glucose. 'Sweet blood' is a classic false friend.",
+      clue: "🗝️ CLUE 1: Dr. Noura took a flight across the English Channel. Destination: a major European capital known for its iconic river and red double‑decker buses."
+    },
+    {
+      text: "Translate 'Le patient est actuellement stable.'",
+      options: ["The patient is actually stable", "The patient is currently stable", "The patient is eventually stable", "The patient is actually stabilized"],
+      correct: 1,
+      explanation: "Actually = en fait ; currently = actuellement.",
+      clue: "🗝️ CLUE 2: She was sighted near a world‑famous clock tower and a large medical district. The city is the capital of England and the United Kingdom."
+    },
+    {
+      text: "What does 'rule out' mean in a clinical SBAR handover?",
+      options: ["Perform emergency surgery", "Exclude a diagnosis", "Order a stat lab", "Transfer patient"],
+      correct: 1,
+      explanation: "Rule out = eliminate a possible diagnosis (e.g., rule out appendicitis).",
+      clue: "🗝️ CLUE 3: The symposium is held at a globally renowned surgical college, established in 1800, located in the Holborn area of that capital."
+    },
+    {
+      text: "Dr. Salim's mistake: 'The blessed patient needs surgery.' Correct English:",
+      options: ["The blessed patient is lucky", "The injured patient needs surgery", "The patient is divinely protected", "Blessed surgery approved"],
+      correct: 1,
+      explanation: "'Blessé' = injured. Never say 'blessed' for trauma.",
+      clue: "🗝️ CLUE 4: The venue is the **Royal College of Surgeons of England** – address: 38 Lincoln's Inn Fields, London WC2A 3PE."
+    },
+    {
+      text: "A patient 'blacked out' after standing. What happened?",
+      options: ["Recovered quickly", "Lost consciousness (syncope)", "Vomited", "Had seizure"],
+      correct: 1,
+      explanation: "Black out = transient loss of consciousness / syncope.",
+      clue: "🗝️ CLUE 5: Inside the college, Dr. Noura is presenting at the **Wolfson Urology Theatre** during the **Urology Royal Symposium**."
+    },
+    {
+      text: "Preposition completion: 'The symposium is ___ March 15th ___ 9 AM.'",
+      options: ["in / at", "on / at", "at / on", "on / in"],
+      correct: 1,
+      explanation: "ON + day, AT + time (Episode 1 grammar).",
+      clue: "📍 FINAL CLUE: Dr. Noura is at the **Urology Royal Symposium, Wolfson Theatre, Royal College of Surgeons of England, 38 Lincoln's Inn Fields, London WC2A 3PE, UK**. You've found her!"
+    }
+  ];
+
+  // Game state: track which clues are unlocked, current question index, selected answer for current question
+  let unlocked = new Array(QUESTIONS.length).fill(false);
+  let currentQuestionIndex = 0;   // first unsolved question index
+  let selectedAnswerValue = null; // stores index of selected option for current active question
+
+  // Audio context for interactive songs
+  let audioContext = null;
+  function initAudio() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+  }
+
+  function playCorrectJingle() {
+    try {
+      initAudio();
+      const now = audioContext.currentTime;
+      const freqs = [261.63, 329.63, 392.00, 523.25];
+      freqs.forEach((freq, idx) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.2, now + idx * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.12 + 0.4);
+        osc.start(now + idx * 0.12);
+        osc.stop(now + idx * 0.12 + 0.4);
+      });
+    } catch(e) { console.warn(e); }
+  }
+
+  function playWrongTone() {
+    try {
+      initAudio();
+      const now = audioContext.currentTime;
+      const freqs = [523.25, 392.00, 329.63, 261.63];
+      freqs.forEach((freq, idx) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.15, now + idx * 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.15 + 0.3);
+        osc.start(now + idx * 0.15);
+        osc.stop(now + idx * 0.15 + 0.3);
+      });
+    } catch(e) {}
+  }
+
+  // DOM elements
+  const clueGrid = document.getElementById("clueGrid");
+  const locationPreview = document.getElementById("locationPreview");
+  const progressFill = document.getElementById("progressFill");
+  const clueCountStat = document.getElementById("clueCountStat");
+  const activeContainer = document.getElementById("activeQuestionContainer");
+  const verifyBtn = document.getElementById("verifyCurrentBtn");
+  const resetBtn = document.getElementById("resetGameBtn");
+  const celebrationDiv = document.getElementById("englandCelebration");
+
+  // Helper: update the clue board (visual + progressive location text without revealing final address)
+  function updateEvidenceBoard() {
+    let clueHtml = "";
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      const isUnlocked = unlocked[i];
+      const lockedClass = isUnlocked ? "unlocked" : "locked";
+      const icon = isUnlocked ? "📄🔓" : "🔒";
+      const clueContent = isUnlocked ? QUESTIONS[i].clue : "🔐 [CLASSIFIED] — answer the active question to unlock.";
+      clueHtml += `
+        <div class="clue-item ${lockedClass}">
+          <div class="clue-icon">${icon}</div>
+          <div class="clue-text"><strong>Evidence #${i+1}</strong><br>${clueContent}</div>
+        </div>
+      `;
+    }
+    clueGrid.innerHTML = clueHtml;
+
+    const solved = unlocked.filter(v => v === true).length;
+    const percent = (solved / QUESTIONS.length) * 100;
+    progressFill.style.width = `${percent}%`;
+    clueCountStat.innerText = `${solved} / ${QUESTIONS.length}`;
+
+    // Update location preview progressively, but never reveal full name until final celebration
+    if (solved === QUESTIONS.length) {
+      locationPreview.innerHTML = `<i class="fas fa-map-marker-alt"></i> ✅ LOCATION DECRYPTED: You have all clues! Press "CASE CLOSED" when celebration appears.`;
+      locationPreview.style.background = "#e6c97e";
+    } else if (solved >= 4) {
+      locationPreview.innerHTML = `<i class="fas fa-city"></i> Target zone identified: European capital, Holborn district. Specific venue nearly pinpointed. (${solved}/6)`;
+    } else if (solved >= 2) {
+      locationPreview.innerHTML = `<i class="fas fa-globe-europe"></i> Continent: Europe. Country: United Kingdom. The final city is narrowing.`;
+    } else if (solved >= 1) {
+      locationPreview.innerHTML = `<i class="fas fa-plane"></i> Dr. Noura has arrived in a major English‑speaking capital across the Channel.`;
+    } else {
+      locationPreview.innerHTML = `<i class="fas fa-lock"></i> LOCATION: [ENCRYPTED] — answer questions to decrypt.`;
+    }
+  }
+
+  // Render the current active question (the first unsolved clue's question)
+  function renderCurrentQuestion() {
+    let targetIdx = -1;
+    for (let i = 0; i < unlocked.length; i++) {
+      if (!unlocked[i]) {
+        targetIdx = i;
+        break;
+      }
+    }
+    if (targetIdx === -1) {
+      // all unlocked -> show message and disable verify button
+      activeContainer.innerHTML = `<div style="text-align:center; padding:2rem;"><i class="fas fa-check-circle"></i> All clues deciphered! Dr. Noura found.<br> Click the celebration to see the exact location.</div>`;
+      verifyBtn.disabled = true;
+      return;
+    }
+    verifyBtn.disabled = false;
+    currentQuestionIndex = targetIdx;
+    const q = QUESTIONS[currentQuestionIndex];
+    let optionsHtml = "";
+    q.options.forEach((opt, idx) => {
+      const isChecked = (selectedAnswerValue === idx);
+      optionsHtml += `
+        <label class="option-item">
+          <input type="radio" name="currentQuestion" value="${idx}" ${isChecked ? "checked" : ""}>
+          <span>${opt}</span>
+        </label>
+      `;
+    });
+    activeContainer.innerHTML = `
+      <div class="q-text">${currentQuestionIndex+1}. ${q.text}</div>
+      <div class="options" id="currentOptions">${optionsHtml}</div>
+      <div id="currentFeedback" class="feedback-message" style="display:none;"></div>
+    `;
+    // attach event listeners to radios to store selection
+    const radios = document.querySelectorAll('input[name="currentQuestion"]');
+    radios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        selectedAnswerValue = parseInt(e.target.value);
+        const fbDiv = document.getElementById("currentFeedback");
+        if (fbDiv) fbDiv.style.display = "none";
+      });
+    });
+  }
+
+  // Verify the answer for the current active question
+  function verifyCurrent() {
+    if (selectedAnswerValue === null) {
+      alert("Please select an answer before verifying.");
+      return;
+    }
+    const q = QUESTIONS[currentQuestionIndex];
+    const isCorrect = (selectedAnswerValue === q.correct);
+    const feedbackDiv = document.getElementById("currentFeedback");
+    if (!feedbackDiv) return;
+
+    if (isCorrect) {
+      playCorrectJingle();
+      unlocked[currentQuestionIndex] = true;
+      selectedAnswerValue = null;
+      updateEvidenceBoard();
+      renderCurrentQuestion();
+      // if all clues unlocked, show celebration after short delay
+      if (unlocked.every(v => v === true)) {
+        setTimeout(() => {
+          showEnglandCelebration();
+        }, 400);
+      }
+    } else {
+      playWrongTone();
+      const correctAnswerText = q.options[q.correct];
+      feedbackDiv.innerHTML = `❌ Incorrect. Correct answer: "${correctAnswerText}". ${q.explanation}`;
+      feedbackDiv.className = "feedback-message feedback-wrong";
+      feedbackDiv.style.display = "block";
+    }
+  }
+
+  function resetGame() {
+    unlocked.fill(false);
+    selectedAnswerValue = null;
+    updateEvidenceBoard();
+    renderCurrentQuestion();
+    if (celebrationDiv.classList.contains("show")) celebrationDiv.classList.remove("show");
+    verifyBtn.disabled = false;
+  }
+
+  function showEnglandCelebration() {
+    if (!celebrationDiv) return;
+    celebrationDiv.classList.add("show");
+    // extra fanfare
+    try {
+      initAudio();
+      const now = audioContext.currentTime;
+      const fanfare = [523.25, 659.25, 783.99, 1046.50];
+      fanfare.forEach((freq, idx) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.type = 'square';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.12, now + idx * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.2 + 0.5);
+        osc.start(now + idx * 0.2);
+        osc.stop(now + idx * 0.2 + 0.5);
+      });
+    } catch(e) {}
+  }
+
+  function closeCelebration() {
+    celebrationDiv.classList.remove("show");
+  }
+
+  // --- initial load ---
+  updateEvidenceBoard();
+  renderCurrentQuestion();
+
+  // attach event listeners
+  verifyBtn.addEventListener("click", verifyCurrent);
+  resetBtn.addEventListener("click", resetGame);
+  document.getElementById("closeCelebrationBtn")?.addEventListener("click", closeCelebration);
+  celebrationDiv.addEventListener("click", (e) => {
+    if (e.target === celebrationDiv) closeCelebration();
+  });
+</script>
+</body>
+</html>
