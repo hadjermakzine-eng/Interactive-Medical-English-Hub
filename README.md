@@ -79,8 +79,22 @@ Based on real classroom observations of French‑speaking medical professionals.
 ---
 
 ## 📬 Contact & License
+## 📢 A Note from the Author
 
-For questions, permissions, or collaboration, please open an issue in this repository.
+**English is the Microphone** was created to help French‑speaking doctors speak English with confidence.
+
+You are free to:
+- ✅ View, read, and download the materials for personal or classroom use
+- ✅ Share the link to this repository with colleagues and students
+
+Please do **not**:
+- ❌ Copy, modify, or redistribute the content without permission
+- ❌ Use any part of this work for commercial purposes
+
+For permissions, collaboration, or questions, please open an issue in this repository.
+
+> *“English is just the microphone – your medical expertise is the music.”* – Dr. Karim
+
 
 Copyright © 2026 Makzine Hadjer – All rights reserved.  
 See manual for full copyright and disclaimer.
