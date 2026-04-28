@@ -1,5 +1,5 @@
 # Interactive-Medical-English-Hub
-🎤 English is the Microphone – Full manual activities + podcast scripts + interactive Medical English game for French‑speaking doctors. Includes clinical vocabulary, grammar, pronunciation, false friends, and a location‑discovery game to Find Dr. Noura.
+🎤 English is the Microphone – Full manual activities + dialogues audio version + interactive Medical English game for French‑speaking doctors. Includes clinical vocabulary, grammar, pronunciation, false friends, and a location‑discovery game to Find Dr. Noura.
 # 🎤 English is the Microphone – Medical English for French‑speaking doctors
 
 **Full manual activities • Podcast scripts • Interactive game • Clinical communication**
@@ -8,16 +8,14 @@
 
 ---
 
-## 📚 Full Manual Activities
+## 📚 Full Manual html Activities
 
 This repository contains resources from the complete *English is the Microphone* manual, including:
 
-- **7 clinical episodes** with dialogues (hospital cafeteria, ER, ward rounds, lectures)
-- **Vocabulary tables** (English terms + French equivalents + pronunciation)
-- **Grammar corners** (prepositions, simple past, future with `will`, present continuous)
+- **7 clinical episodes (audio- ** with dialogues (hospital cafeteria, ER, ward rounds, lectures)
 - **Pronunciation drills** (–ed endings, **-itis** stress, exploding T, tongue twisters)
 - **False friends list** (40+ French–English traps)
-- **Phrasal verb tables** (clinical actions, patient events, communication)
+- **Phrasal verb and idioms tables** (clinical actions, patient events, communication)
 - **Clinical documentation** (SOAP notes, SBAR handover, BRAIN consent protocol)
 - **Medical abbreviations** (English → French)
 - **Prefixes & suffixes** (hyper‑, hypo‑, –itis, –ectomy, –algia)
